@@ -1,0 +1,17 @@
+# Sample Home Assistant automation to turn on Sonoff 3ch light on motion
+
+alias: 'Grow Room: Light On Motion'
+description: 'Turns on Sonoff grow light if motion detected (Arduino event)'
+trigger:
+  - platform: serial  # Or use mqtt if Serial->mqtt bridge is used
+    port: /dev/ttyUSB0
+    data: 'ACTION:LIGHT_ON'
+condition: []
+action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.sonoff_3ch_channel_1  # Change to your Sonoff channel entity ID
+  - service: notify.mobile_app_your_device  # Optional: mobile notification
+    data:
+      message: 'Grow room motion detected, light turned on.'
+mode: single
